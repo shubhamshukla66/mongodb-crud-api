@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
 const errorHandler = require('./middleware/error');
+const limiter = require('./middleware/rateLimiter');
 
 // Load env vars
 dotenv.config();
@@ -13,6 +14,9 @@ const app = express();
 
 // Body parser
 app.use(express.json());
+
+// Apply rate limiter to all requests
+app.use(limiter);
 
 app.get('/', (req, res) => {
   res.send('Welcome to the User Management API');
